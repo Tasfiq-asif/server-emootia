@@ -1,0 +1,20 @@
+FROM node:20-alpine AS base
+
+# Development image
+FROM base AS dev
+WORKDIR /app
+
+# Enable pnpm
+RUN corepack enable pnpm
+
+# Install dependencies
+COPY package*.json pnpm-lock.yaml* ./
+RUN pnpm install
+
+# Copy source code
+COPY . .
+
+EXPOSE 3000
+
+# Default command for development
+CMD ["pnpm", "run", "start:dev"]
