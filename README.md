@@ -1,98 +1,227 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Headhill Server
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A professional NestJS application with PostgreSQL and Prisma ORM.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🏗️ Project Structure
 
-## Description
+```
+src/
+├── common/                 # Shared utilities and configurations
+│   ├── config/            # Configuration modules
+│   ├── decorators/        # Custom decorators
+│   ├── interceptors/      # Custom interceptors
+│   └── pipes/             # Custom pipes
+├── database/              # Database service and module
+├── generated/             # Generated Prisma client
+├── modules/               # Feature modules
+│   ├── users/            # User management
+│   └── posts/            # Post management
+├── app.controller.ts      # Main app controller
+├── app.module.ts          # Main app module
+├── app.service.ts         # Main app service
+└── main.ts               # Application entry point
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ pnpm install
+prisma/
+├── schema.prisma         # Database schema
+└── seed.ts              # Database seed data
 ```
 
-## Compile and run the project
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- pnpm
+- Docker & Docker Compose
+- PostgreSQL (if running locally)
+
+### Installation
+
+1. Install dependencies:
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+2. Set up environment variables:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+3. Start the database (using Docker):
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+docker-compose -f docker-compose.dev.yml up postgres -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. Generate Prisma client:
 
-## Resources
+```bash
+pnpm run db:generate
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+5. Run database migrations:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+pnpm run db:migrate
+```
 
-## Support
+6. Seed the database (optional):
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+pnpm run db:seed
+```
 
-## Stay in touch
+7. Start the development server:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+pnpm run start:dev
+```
 
-## License
+## 📦 Available Scripts
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Development
+
+- `pnpm run start:dev` - Start development server with hot reload
+- `pnpm run start:debug` - Start server in debug mode
+- `pnpm run build` - Build the application
+- `pnpm run start:prod` - Start production server
+
+### Database
+
+- `pnpm run db:generate` - Generate Prisma client
+- `pnpm run db:push` - Push schema changes to database
+- `pnpm run db:migrate` - Create and run migrations
+- `pnpm run db:migrate:prod` - Deploy migrations in production
+- `pnpm run db:seed` - Seed the database
+- `pnpm run db:studio` - Open Prisma Studio
+- `pnpm run db:reset` - Reset database and run migrations
+
+### Testing & Linting
+
+- `pnpm run test` - Run unit tests
+- `pnpm run test:e2e` - Run end-to-end tests
+- `pnpm run test:cov` - Run tests with coverage
+- `pnpm run lint` - Run ESLint
+- `pnpm run format` - Format code with Prettier
+
+## 🐳 Docker Development
+
+Start the entire development environment:
+
+```bash
+docker-compose -f docker-compose.dev.yml up
+```
+
+This will start:
+
+- PostgreSQL database (port 5432)
+- Adminer database UI (port 8080)
+- NestJS application (port 3001)
+
+## 🌐 API Endpoints
+
+### Users
+
+- `GET /users` - Get all users
+- `GET /users/:id` - Get user by ID
+- `POST /users` - Create new user
+- `PATCH /users/:id` - Update user
+- `DELETE /users/:id` - Delete user
+
+### Health Check
+
+- `GET /` - Application health check
+
+## 🗄️ Database Schema
+
+The application uses PostgreSQL with the following main entities:
+
+- **Users**: User management with authentication support
+- **Posts**: Blog posts or content management
+- **BaseModel**: Common fields for all entities (id, createdAt, updatedAt)
+
+## 🔧 Configuration
+
+Environment variables:
+
+```env
+# Database
+DATABASE_URL="postgresql://postgres:password@localhost:5432/headhill_db?schema=public"
+
+# Application
+NODE_ENV=development
+PORT=3001
+
+# Security
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRES_IN=1d
+```
+
+## 🛠️ Technology Stack
+
+- **Framework**: NestJS
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Validation**: class-validator, class-transformer
+- **Language**: TypeScript
+- **Package Manager**: pnpm
+- **Containerization**: Docker
+
+## 📝 Development Best Practices
+
+1. **Module Structure**: Each feature has its own module with controllers, services, and DTOs
+2. **Database Access**: All database operations go through the DatabaseService
+3. **Validation**: Use DTOs with class-validator decorators
+4. **Error Handling**: Consistent error responses with proper HTTP status codes
+5. **Configuration**: Environment-based configuration with type safety
+6. **Database Migrations**: Always use Prisma migrations for schema changes
+
+## 🔍 Database Management
+
+### Adminer (Development)
+
+Access the database UI at `http://localhost:8080` when running with Docker Compose.
+
+**Connection details:**
+
+- Server: `postgres`
+- Username: `postgres`
+- Password: `password`
+- Database: `headhill_db`
+
+### Prisma Studio
+
+```bash
+pnpm run db:studio
+```
+
+Opens Prisma Studio at `http://localhost:5555` for database management.
+
+## 🚀 Production Deployment
+
+1. Build the application:
+
+```bash
+pnpm run build
+```
+
+2. Run production migrations:
+
+```bash
+pnpm run db:migrate:prod
+```
+
+3. Start the production server:
+
+```bash
+pnpm run start:prod
+```
+
+## 📚 Additional Resources
+
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [Prisma Documentation](https://www.prisma.io/docs/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
